@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "SliderHandler.h"
 
 //==============================================================================
 /**
@@ -29,12 +30,12 @@ private:
     // access the processor object that created it.
     NewProjectAudioProcessor& audioProcessor;
 
-    juce::Slider levelSlider;
     juce::Label textLabel{ {}, "Synthesizer" };
     juce::Font textFont{ 12.0f };
     juce::ComboBox synthChoose;
+    SliderHandler sliderSet;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> levelSliderAttachment;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> waveComboBoxAttachment;
-
+    std::vector<juce::Component*> subComponents{ &sliderSet };
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(NewProjectAudioProcessorEditor)
 };

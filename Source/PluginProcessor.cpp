@@ -9,6 +9,7 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+
 //==============================================================================
 NewProjectAudioProcessor::NewProjectAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -20,16 +21,15 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
                        ),tree(*this, nullptr, "PARAM",
-                           { std::make_unique<juce::AudioParameterFloat>("level",
-                               "Level",
-                               juce::NormalisableRange<float>(0.0f, 1.0f, 0.1f), 0.5f,
-                               juce::String(),
-                               juce::AudioProcessorParameter::genericParameter,
-                               [](float value, int) {return juce::String(value); },
-                               [](juce::String text) { return text.getFloatValue(); }),
+                           { 
+                           SliderParameter("level","Level"),
+                           SliderParameter("attack","Attack"),
+                           SliderParameter("decay","Decay"),
+                           SliderParameter("sustain","Sustain"),
+                           SliderParameter("release","Release"),
                            std::make_unique<juce::AudioParameterChoice>("wave",
                                "Wave",
-                               juce::StringArray({ "Sine","Square","Sawtooth","Triangle" }),0) })
+                               juce::StringArray({ "Sine","Square","Sawtooth","Triangle" }),1) })
 #endif
 {
     mySynth.clearSounds();
@@ -47,6 +47,17 @@ NewProjectAudioProcessor::~NewProjectAudioProcessor()
 }
 
 //==============================================================================
+
+std::unique_ptr<juce::AudioParameterFloat> NewProjectAudioProcessor:: SliderParameter(char* id, char* name, float init , float min, float max , float step ) {
+    return std::make_unique<juce::AudioParameterFloat>(id,
+        name,
+        juce::NormalisableRange<float>(min, max, step), init,
+        juce::String(),
+        juce::AudioProcessorParameter::genericParameter,
+        [](float value, int) {return juce::String(value); },
+        [](juce::String text) { return text.getFloatValue(); });
+}
+
 const juce::String NewProjectAudioProcessor::getName() const
 {
     return JucePlugin_Name;

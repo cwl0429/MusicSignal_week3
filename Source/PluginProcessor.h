@@ -30,8 +30,9 @@ public:
    #endif
 
     void processBlock (juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
-
+    
     //==============================================================================
+    std::unique_ptr<juce::AudioParameterFloat> SliderParameter(char* id, char* name, float init = 0.5f, float min = 0, float max = 1, float step = 0.02);
     juce::AudioProcessorEditor* createEditor() override;
     bool hasEditor() const override;
 
