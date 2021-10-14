@@ -11,7 +11,7 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "SliderHandler.h"
-
+#include "Oscilloscope.h"
 //==============================================================================
 /**
 */
@@ -34,8 +34,9 @@ private:
     juce::Font textFont{ 12.0f };
     juce::ComboBox synthChoose;
     SliderHandler sliderSet;
+    Oscilloscope oscilloscope;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> levelSliderAttachment;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> waveComboBoxAttachment;
-    std::vector<juce::Component*> subComponents{ &sliderSet };
+    std::vector<juce::Component*> subComponents{&oscilloscope, &sliderSet };
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(NewProjectAudioProcessorEditor)
 };

@@ -126,6 +126,7 @@ void NewProjectAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
     // initialisation that you need..
     lastSampleRate = sampleRate;
     mySynth.setCurrentPlaybackSampleRate(sampleRate);
+    singleChannelSampleFifo.prepare(samplesPerBlock);
 }
 
 void NewProjectAudioProcessor::releaseResources()
@@ -177,6 +178,8 @@ void NewProjectAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
         
     }
     mySynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
+
+    singleChannelSampleFifo.update(buffer);
 }
 
 //==============================================================================

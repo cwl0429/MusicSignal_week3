@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "SynthSound.h"
 #include "SynthVoice.h"
+#include "FIFO.h"
 //==============================================================================
 /**
 */
@@ -32,7 +33,7 @@ public:
     void processBlock (juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
     
     //==============================================================================
-    std::unique_ptr<juce::AudioParameterFloat> SliderParameter(char* id, char* name, float init = 0.5f, float min = 0, float max = 1, float step = 0.02);
+    std::unique_ptr<juce::AudioParameterFloat> SliderParameter(char* id, char* name, float init = 0.1f, float min = 0, float max = 1, float step = 0.02);
     juce::AudioProcessorEditor* createEditor() override;
     bool hasEditor() const override;
 
@@ -54,12 +55,12 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
-
+    SingleChannelSampleFifo<juce::AudioBuffer<float>>& getSingleChannelSampleFifo() { return singleChannelSampleFifo; }
     juce::AudioProcessorValueTreeState tree;
 private:
     //==============================================================================
     juce::Synthesiser mySynth;
-
+    SingleChannelSampleFifo<juce::AudioBuffer<float>> singleChannelSampleFifo{ 0 };  //queue for waveform
     double lastSampleRate;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NewProjectAudioProcessor)
 };

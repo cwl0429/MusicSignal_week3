@@ -34,6 +34,8 @@ public:
 
     void setChannel(int newChannel);
 
+    void setADSR(float attack, float decay, float sustain, float release);
+
     inline void logger(std::string msg);
 
     
@@ -45,4 +47,8 @@ private:
     float currentAngle;
     float angleIncrement;
     float tailOff;
+    bool isPlaying = false;
+
+    juce::ADSR adsr;
+    juce::ADSR::Parameters adsrParameters;
 };

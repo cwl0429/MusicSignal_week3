@@ -17,19 +17,21 @@ bool SynthVoice::canPlaySound (juce::SynthesiserSound* sound)
 
 void SynthVoice::startNote (int midiNoteNumber, float velocity, juce::SynthesiserSound* sound, int currentPitchWheelPosition)
 {
+    adsr.noteOn();
+    adsr.setSampleRate(getSampleRate());
     noteMidiNumber = midiNoteNumber;
     frequency = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
     currentAngle = 0.f;
     angleIncrement = frequency / getSampleRate() * juce::MathConstants<float>::twoPi;
     tailOff = 0.0;
+    isPlaying = true;
 }
 
 void SynthVoice::stopNote (float velocity, bool allowTailOff)
 {
     if (allowTailOff)
     {
-        if (tailOff == 0.0)
-            tailOff = 1.0;
+        adsr.noteOff();
     }
     else
     {
@@ -54,8 +56,52 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer <float> &outputBuffer, int s
     float value;
     float proportion;
     
+    if (isPlaying)
+    {
+        adsr.setParameters(adsrParameters);
+        for (int i = startSample; i < (startSample + numSamples); i++)
+        {
+            float adsrValue = adsr.getNextSample();
+            if (adsrValue <= 0.005)
+            {
+                isPlaying = false;
+            }
+            switch (channel)
+            {
+            case 0: //sin wave
+                value = std::sin(currentAngle);
+                break;
+            case 1: //square wave 
+                value = ((std::sin(currentAngle) > 0) ? 1 : -1);
+                break;
+            case 2: //sawtooth wave 
+                proportion = fmod(currentAngle + juce::MathConstants<float>::pi, juce::MathConstants<float>::twoPi) / juce::MathConstants<float>::twoPi;
+                value = (proportion * 2 - 1);
+                break;
+            case 3: //triangle wave
+                proportion = fmod(currentAngle + juce::MathConstants<float>::halfPi, juce::MathConstants<float>::twoPi) / juce::MathConstants<float>::twoPi;
+                if (proportion < 0.5)
+                    value = ((proportion * 2) * 2 - 1);
+                else
+                    value = 2 - ((proportion - 0.5) * 2) * 2 - 1;
+                break;
+            default:
+                value = std::sin(currentAngle);
+                break;
+            }
+            value = value * level * adsrValue;
+            outputBuffer.addSample(0, i, value);
+            outputBuffer.addSample(1, i, value);
+
+            currentAngle += angleIncrement;
+            if (currentAngle >= juce::MathConstants<float>::twoPi)
+            {
+                currentAngle -= juce::MathConstants<float>::twoPi;
+            }
+        }
+    }
  
-    if (tailOff > 0.0)
+    /*if (tailOff > 0.0)
     {
         
         for (int i = startSample; i < (startSample + numSamples); i++)//release key
@@ -136,7 +182,7 @@ void SynthVoice::renderNextBlock (juce::AudioBuffer <float> &outputBuffer, int s
             
             currentAngle += angleIncrement;
         }
-    }
+    }*/
 }
 
 
@@ -151,6 +197,13 @@ void SynthVoice::setChannel(int newChannel)
     channel = newChannel;
 }
 
+void SynthVoice::setADSR(float attack, float decay, float sustain, float release) //unit is second
+{
+    adsrParameters.attack = attack;
+    adsrParameters.decay = decay;
+    adsrParameters.sustain = sustain;
+    adsrParameters.release = release;
+}
 inline void SynthVoice::logger(std::string msg) {
     std::string filePath = "C:/Users/ChunWei/source/log.txt";
     std::ofstream ofs(filePath.c_str(), std::ios_base::out | std::ios_base::app);

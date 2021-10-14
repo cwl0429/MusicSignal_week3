@@ -11,7 +11,7 @@
 
 //==============================================================================
 NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p),sliderSet(p)
+    : AudioProcessorEditor (&p), audioProcessor (p),sliderSet(p),oscilloscope(p)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -49,16 +49,20 @@ void NewProjectAudioProcessorEditor::resized()
     // subcomponents in your editor..
     
     auto area = getLocalBounds();
-    int sliderWidth = area.getWidth() / 2;
-    int sliderHeight = area.getHeight() / 4;
-    int x = 100;
-    int y = 100;
+    
+    juce::FlexBox headLeftBlox;
+    headLeftBlox.flexDirection = juce::FlexBox::Direction::column;
+    headLeftBlox.items.add(juce::FlexItem(oscilloscope).withFlex(7.0f));
+    headLeftBlox.items.add(juce::FlexItem(synthChoose).withFlex(1.0f));
 
     juce::FlexBox headFlexBlox;
     headFlexBlox.flexDirection = juce::FlexBox::Direction::row;
-    //headFlexBlox.items.add(juce::FlexItem(levelSlider).withFlex(3.0f));
-    headFlexBlox.items.add(juce::FlexItem(synthChoose).withFlex(1.0f));
-    //headFlexBlox.performLayout(area.reduced(5));
+    
+    
+
+    headFlexBlox.items.add(juce::FlexItem(headLeftBlox).withFlex(10.0f));
+    
+    
 
     juce::FlexBox bottomFlexBlox;
     bottomFlexBlox.flexDirection = juce::FlexBox::Direction::row;
@@ -66,7 +70,7 @@ void NewProjectAudioProcessorEditor::resized()
     juce::FlexBox flexBox;
     flexBox.flexDirection = juce::FlexBox::Direction::column;
     flexBox.items.add(juce::FlexItem(headFlexBlox).withFlex(5.0f));
-    flexBox.items.add(juce::FlexItem(bottomFlexBlox).withFlex(5.0f));
-    flexBox.performLayout(area.reduced(5));
+    flexBox.items.add(juce::FlexItem(bottomFlexBlox).withFlex(2.0f));
+    flexBox.performLayout(area.reduced(3));
 
 }
