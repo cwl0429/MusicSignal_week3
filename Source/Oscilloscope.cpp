@@ -25,12 +25,12 @@ Oscilloscope::~Oscilloscope()
 
 void Oscilloscope::paint(juce::Graphics& g)
 {
-    g.fillAll(juce::Colour(50, 50, 50));
+    g.fillAll(juce::Colour(192,192,192));
     g.setColour(juce::Colours::grey);
     g.drawRoundedRectangle(getLocalBounds().toFloat(), 3, 3);
 
     g.setColour(juce::Colours::white);
-    g.strokePath(waveformPath, juce::PathStrokeType(1.f));
+    g.strokePath(waveformPath, juce::PathStrokeType(2.f));
 }
 
 void Oscilloscope::resized()

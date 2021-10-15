@@ -14,6 +14,7 @@
 VerticalSliderWithLabel::VerticalSliderWithLabel(NewProjectAudioProcessor& audioProcessor, juce::String titleName,juce::String unit) :
     processor(audioProcessor)
 {
+    setLookAndFeel(&lnf);
     slider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalDrag);
     slider.setTextBoxStyle(juce::Slider::TextBoxBelow,
         true,

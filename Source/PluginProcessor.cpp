@@ -48,7 +48,7 @@ NewProjectAudioProcessor::~NewProjectAudioProcessor()
 
 //==============================================================================
 
-std::unique_ptr<juce::AudioParameterFloat> NewProjectAudioProcessor:: SliderParameter(char* id, char* name, float init , float min, float max , float step ) {
+std::unique_ptr<juce::AudioParameterFloat> NewProjectAudioProcessor:: SliderParameter(char* id, char* name, float max, float min,  float init, float step ) {
     return std::make_unique<juce::AudioParameterFloat>(id,
         name,
         juce::NormalisableRange<float>(min, max, step), init,
@@ -175,7 +175,10 @@ void NewProjectAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, j
         auto* myVoice = dynamic_cast<SynthVoice*>(mySynth.getVoice(i));
         myVoice->setLevel(tree.getRawParameterValue("level")->load());
         myVoice->setChannel(tree.getRawParameterValue("wave")->load());
-        
+        myVoice->setADSR(tree.getRawParameterValue("attack")->load(),
+            tree.getRawParameterValue("decay")->load(),
+            tree.getRawParameterValue("sustain")->load(),
+            tree.getRawParameterValue("release")->load());
     }
     mySynth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
 

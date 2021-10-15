@@ -12,6 +12,7 @@
 
 #include<JuceHeader.h>
 #include "PluginProcessor.h"
+#include "AweLookAndFeel.h"
 
 class VerticalSliderWithLabel : public juce::Component
 {
@@ -30,7 +31,7 @@ private:
     juce::Slider slider;
 
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> attachment;
-
+    AweLookAndFeel lnf;
 
 };
 class SliderHandler : public juce::Component

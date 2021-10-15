@@ -21,6 +21,10 @@
             file="Source/Oscilloscope.cpp"/>
       <FILE id="HqE9Ha" name="FIFO.h" compile="0" resource="0" file="Source/FIFO.h"/>
       <FILE id="ylMciB" name="Oscilloscope.h" compile="0" resource="0" file="Source/Oscilloscope.h"/>
+      <FILE id="PYuaGr" name="AweLookAndFeel.h" compile="0" resource="0"
+            file="Source/AweLookAndFeel.h"/>
+      <FILE id="hvVDNh" name="Spectrum.cpp" compile="1" resource="0" file="Source/Spectrum.cpp"/>
+      <FILE id="Nlo4q6" name="Spectrum.h" compile="0" resource="0" file="Source/Spectrum.h"/>
       <FILE id="wUOotK" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
     </GROUP>
   </MAINGROUP>

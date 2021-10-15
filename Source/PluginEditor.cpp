@@ -11,7 +11,7 @@
 
 //==============================================================================
 NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p),sliderSet(p),oscilloscope(p)
+    : AudioProcessorEditor (&p), audioProcessor (p),sliderSet(p),oscilloscope(p), spectrum(p)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
@@ -21,6 +21,7 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
     synthChoose.addItem("Square", 2);
     synthChoose.addItem("Sawtooth", 3);
     synthChoose.addItem("Triangle", 4);
+    
     waveComboBoxAttachment.reset(new juce::AudioProcessorValueTreeState::ComboBoxAttachment(audioProcessor.tree, "wave", synthChoose));
 
     for (auto& comp : subComponents)
@@ -54,23 +55,23 @@ void NewProjectAudioProcessorEditor::resized()
     headLeftBlox.flexDirection = juce::FlexBox::Direction::column;
     headLeftBlox.items.add(juce::FlexItem(oscilloscope).withFlex(7.0f));
     headLeftBlox.items.add(juce::FlexItem(synthChoose).withFlex(1.0f));
-
+    //oscilloscope.setBounds(oscilloscope.getBounds().reduced(10));
+    
     juce::FlexBox headFlexBlox;
     headFlexBlox.flexDirection = juce::FlexBox::Direction::row;
     
-    
-
-    headFlexBlox.items.add(juce::FlexItem(headLeftBlox).withFlex(10.0f));
-    
+    headFlexBlox.items.add(juce::FlexItem(headLeftBlox).withFlex(2.0f));
+    headFlexBlox.items.add(juce::FlexItem(spectrum).withFlex(3.0f));
     
 
     juce::FlexBox bottomFlexBlox;
     bottomFlexBlox.flexDirection = juce::FlexBox::Direction::row;
     bottomFlexBlox.items.add(juce::FlexItem(sliderSet).withFlex(1.0f));
+
     juce::FlexBox flexBox;
     flexBox.flexDirection = juce::FlexBox::Direction::column;
-    flexBox.items.add(juce::FlexItem(headFlexBlox).withFlex(5.0f));
+    flexBox.items.add(juce::FlexItem(headFlexBlox).withFlex(7.0f));
     flexBox.items.add(juce::FlexItem(bottomFlexBlox).withFlex(2.0f));
-    flexBox.performLayout(area.reduced(3));
+    flexBox.performLayout(area.reduced(10));
 
 }
