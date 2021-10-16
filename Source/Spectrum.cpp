@@ -16,6 +16,7 @@ Spectrum::Spectrum(NewProjectAudioProcessor& p) :
     processor(p),
     spectrum(p.getSingleChannelSampleFifo())
 {
+   
     fftDataGenerator.changeOrder(10);
     pathBuffer.setSize(1, fftDataGenerator.getFFTSize());
     startTimerHz(30);
@@ -27,9 +28,8 @@ Spectrum::~Spectrum()
 
 void Spectrum::paint(juce::Graphics& g)
 {
-    g.fillAll(juce::Colour(50, 50, 50));
-    g.setColour(juce::Colours::grey);
-    g.drawRoundedRectangle(getLocalBounds().toFloat().reduced(20), 3, 10);
+    g.fillAll(juce::Colour(113, 109, 125));
+    
 
     drawBackgroundGrid(g);
 
@@ -37,6 +37,9 @@ void Spectrum::paint(juce::Graphics& g)
     g.strokePath(spectrumPath, juce::PathStrokeType(2.f));
 
     drawTextLabels(g);
+
+    g.setColour(juce::Colours::grey);
+    g.drawRoundedRectangle(getLocalBounds().toFloat(), 3, 3);
 }
 
 void Spectrum::resized()
@@ -104,7 +107,7 @@ void Spectrum::drawBackgroundGrid(juce::Graphics& g)
 
     auto xs = getXs(freqs, left, width);
 
-    g.setColour(Colours::dimgrey);
+    g.setColour(Colours::darkgrey);
     for (auto x : xs)
     {
         g.drawVerticalLine(x, top, bottom);
@@ -124,7 +127,7 @@ void Spectrum::drawBackgroundGrid(juce::Graphics& g)
 void Spectrum::drawTextLabels(juce::Graphics& g)
 {
     using namespace juce;
-    g.setColour(Colours::lightgrey);
+    g.setColour(juce::Colour(204, 204, 255));
     const int fontHeight = 10;
     g.setFont(fontHeight);
 
@@ -156,7 +159,7 @@ void Spectrum::drawTextLabels(juce::Graphics& g)
             str << "k";
         str << "Hz";
 
-        auto textWidth = g.getCurrentFont().getStringWidth(str);
+        auto textWidth = g.getCurrentFont().getStringWidth(str)+2;
 
         Rectangle<int> r;
 
@@ -178,14 +181,14 @@ void Spectrum::drawTextLabels(juce::Graphics& g)
             str << "+";
         str << gDb << "dB";
 
-        auto textWidth = g.getCurrentFont().getStringWidth(str);
+        auto textWidth = g.getCurrentFont().getStringWidth(str)+2;
 
         Rectangle<int> r;
         r.setSize(textWidth, fontHeight);
         r.setX(1);
         r.setCentre(r.getCentreX(), y);
 
-        g.setColour(Colours::lightgrey);
+        g.setColour(juce::Colour(204, 204, 255));
 
         g.drawFittedText(str, r, juce::Justification::centredLeft, 1);
     }

@@ -35,7 +35,7 @@ private:
     FFTDataGenerator<std::vector<float>> fftDataGenerator;
     FFTPathProducer<juce::Path> pathProducer;
     juce::Path spectrumPath;
-
+    
     void generateSpectrum();
 
     void drawBackgroundGrid(juce::Graphics& g);

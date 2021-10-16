@@ -25,7 +25,7 @@ Oscilloscope::~Oscilloscope()
 
 void Oscilloscope::paint(juce::Graphics& g)
 {
-    g.fillAll(juce::Colour(192,192,192));
+    g.fillAll(juce::Colour(113, 109, 125));
     g.setColour(juce::Colours::grey);
     g.drawRoundedRectangle(getLocalBounds().toFloat(), 3, 3);
 

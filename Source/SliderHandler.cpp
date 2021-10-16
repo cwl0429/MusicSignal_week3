@@ -11,7 +11,7 @@
 #include "SliderHandler.h"
 //#include <JuceHeader.h>
 
-VerticalSliderWithLabel::VerticalSliderWithLabel(NewProjectAudioProcessor& audioProcessor, juce::String titleName,juce::String unit) :
+RotarySliderWithLabel::RotarySliderWithLabel(NewProjectAudioProcessor& audioProcessor, juce::String titleName,juce::String unit) :
     processor(audioProcessor)
 {
     setLookAndFeel(&lnf);
@@ -29,17 +29,17 @@ VerticalSliderWithLabel::VerticalSliderWithLabel(NewProjectAudioProcessor& audio
     addAndMakeVisible(slider);
 }
 
-VerticalSliderWithLabel::~VerticalSliderWithLabel()
+RotarySliderWithLabel::~RotarySliderWithLabel()
 {
 
 }
 
-void VerticalSliderWithLabel::paint(juce::Graphics& g)
+void RotarySliderWithLabel::paint(juce::Graphics& g)
 {
-    g.fillAll(juce::Colour(192,192,192));
+    g.fillAll(juce::Colour(80, 82, 92));
 }
 
-void VerticalSliderWithLabel::resized()
+void RotarySliderWithLabel::resized()
 {
     auto area = getLocalBounds();
     title.setBounds(area.removeFromTop(15));
@@ -70,7 +70,7 @@ SliderHandler::~SliderHandler()
 
 void SliderHandler::paint(juce::Graphics& g)
 {
-    g.fillAll(juce::Colour(100, 100, 100));
+    g.fillAll(juce::Colour(80, 82, 92));
 
 }
 

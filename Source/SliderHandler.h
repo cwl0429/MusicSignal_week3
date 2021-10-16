@@ -14,11 +14,11 @@
 #include "PluginProcessor.h"
 #include "AweLookAndFeel.h"
 
-class VerticalSliderWithLabel : public juce::Component
+class RotarySliderWithLabel : public juce::Component
 {
 public:
-    VerticalSliderWithLabel(NewProjectAudioProcessor& audioProcessor, juce::String titleName, juce::String unit);
-    ~VerticalSliderWithLabel();
+    RotarySliderWithLabel(NewProjectAudioProcessor& audioProcessor, juce::String titleName, juce::String unit);
+    ~RotarySliderWithLabel();
 
     void paint(juce::Graphics&)override;
     void resized() override;
@@ -45,13 +45,13 @@ public:
 
 private:
     NewProjectAudioProcessor& processor;
-    VerticalSliderWithLabel levelSlider;
-    VerticalSliderWithLabel a_Slider;
-    VerticalSliderWithLabel d_Slider;
-    VerticalSliderWithLabel s_Slider;
-    VerticalSliderWithLabel r_Slider;
+    RotarySliderWithLabel levelSlider;
+    RotarySliderWithLabel a_Slider;
+    RotarySliderWithLabel d_Slider;
+    RotarySliderWithLabel s_Slider;
+    RotarySliderWithLabel r_Slider;
 
-    std::vector<VerticalSliderWithLabel*> sliders{ &levelSlider, &a_Slider, &d_Slider, &s_Slider, &r_Slider };
+    std::vector<RotarySliderWithLabel*> sliders{ &levelSlider, &a_Slider, &d_Slider, &s_Slider, &r_Slider };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SliderHandler);
 };
